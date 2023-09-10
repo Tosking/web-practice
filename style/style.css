@@ -1,0 +1,15 @@
+.header__wrapper {
+    display: flex;
+    justify-content: space-between;
+    padding: 10px;
+    border-bottom: 1px solid #aaa;
+}
+
+.header_right {
+    display: flex;
+    justify-content: flex-end;
+}
+
+.header_entry {
+    padding: 5px 10px;
+}
