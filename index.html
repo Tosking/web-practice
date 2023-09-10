@@ -18,7 +18,32 @@
         </div>
       </div>
     </header>
-    <main></main>
+    <main>
+      <div class="modal_container">
+        <div class="modal__content">
+          <div class="modal__header">
+            <span class="modal__close">X</span>
+            <h2 class="modal_header__text"></h2>
+          </div>
+          <div class="modal__login">
+            <form action="/auth/signin" class="modal_entries" method="POST">
+              <input type="text" class="login__email modal__entry">
+              <input type="text" class="login__password modal__entry">
+              <button type="submit">Войти</button>
+            </form>
+          </div>
+          <div class="modal__signup">
+            <form action="/auth/signup" class="modal_entries" method="POST">
+              <input type="text" class="signup__name modal__entry">
+              <input type="text" class="signup__email modal__entry">
+              <input type="text" class="signup__password modal__entry">
+              <input type="text" class="signup__password__2 modal__entry">
+              <button type="submit">Зарегистрироваться</button>
+            </form>
+          </div>
+        </div>
+      </div>
+    </main>
     <footer></footer>
   </body>
   <script src="/script.js"></script>

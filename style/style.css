@@ -13,3 +13,67 @@
 .header_entry {
     padding: 5px 10px;
 }
+
+.modal_container {
+    display: none;
+    position: fixed;
+    z-index: 999;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5);
+}
+
+.modal__content {
+    background-color: #fefefe;
+    margin: 15% auto;
+    padding: 20px;
+    border: 1px solid #888;
+    width: 20%;
+    border-radius: 10px;
+}
+
+.modal__close {
+    cursor: pointer;
+    color: #aaa;
+    float: right;
+    font-size: 28px;
+    font-weight: bold;
+}
+
+.modal__header {
+}
+
+input {
+    border: 1px black solid;
+    padding: 5px;
+}
+.modal__content button {
+    padding: 5px;
+}
+
+.modal_entries {
+    align-items: center;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+
+.modal__entry {
+    justify-content: center;
+    width: 50%;
+    margin:10px 0;
+}
+
+.modal_header__text{
+    text-align: center; 
+}
+
+.modal__signup {
+    display: none;
+}
+
+.modal__login {
+    display: none;
+}
