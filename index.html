@@ -9,6 +9,7 @@
     <link rel="stylesheet" href="/style/style.css" />
   </head>
   <body>
+    <iframe name="dummyframe" id="dummyframe" style="display: none;"></iframe>
     <header>
       <div class="header__wrapper">
         <div class="header__main-page header_left header_entry">Главная</div>
@@ -26,19 +27,21 @@
             <h2 class="modal_header__text"></h2>
           </div>
           <div class="modal__login">
-            <form action="/auth/signin" class="modal_entries" method="POST">
-              <input type="text" class="login__email modal__entry">
-              <input type="text" class="login__password modal__entry">
-              <button type="submit">Войти</button>
+            <form action="/auth/signin" class="signin__form modal_entries" method="POST">
+              <input type="text" required pattern="^[a-zA-Z0-9]+(?:\.[a-zA-Z0-9]+)*@[a-zA-Z0-9]+(?:\.[a-zA-Z0-9]+)*$" 
+              class="login__email modal__entry" name="email" id="email" placeholder="Почта">
+              <input type="text" required class="login__password modal__entry" name="password" placeholder="Пароль">
+              <button type="submit" class="login__submit">Войти</button>
             </form>
           </div>
           <div class="modal__signup">
-            <form action="/auth/signup" class="modal_entries" method="POST">
-              <input type="text" class="signup__name modal__entry">
-              <input type="text" class="signup__email modal__entry">
-              <input type="text" class="signup__password modal__entry">
-              <input type="text" class="signup__password__2 modal__entry">
-              <button type="submit">Зарегистрироваться</button>
+            <form action="/auth/signup" class="signup__form modal_entries" method="POST">
+              <input type="text" required  class="signup__name modal__entry" name="name" placeholder="Имя">
+              <input type="text" required pattern="^[a-zA-Z0-9]+(?:\.[a-zA-Z0-9]+)*@[a-zA-Z0-9]+(?:\.[a-zA-Z0-9]+)*$" 
+              class="signup__email modal__entry" name="email" placeholder="Почта">
+              <input type="text" required class="signup__password modal__entry" name="password" placeholder="Пароль">
+              <input type="text" required class="signup__password__2 modal__entry" placeholder="Повторите пароль">
+              <button type="submit" class="signup__submit">Зарегистрироваться</button>
             </form>
           </div>
         </div>
