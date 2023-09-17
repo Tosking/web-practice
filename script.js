@@ -11,6 +11,8 @@ const signupSubmit = document.querySelector(".signup__submit")
 const signupError = document.querySelector(".signup__error")
 const signinError = document.querySelector(".signin__error")
 const addPost = document.querySelector(".add_post__button")
+const postsWrap = document.querySelector(".posts__wrapper")
+const postsAll = document.querySelectorAll(".posts__post")
 
 function deleteAllCookies() {
     const cookies = document.cookie.split(";");
@@ -44,6 +46,45 @@ else {
         modal.style.display = "block"
         modalAddPost.style.display = "inline"
         headerText.innerHTML = "Постинг"
+    })
+    
+    postsWrap.addEventListener("click", (e) => {
+        let res = new XMLHttpRequest()
+        res.open("POST", "/post/vote", true)
+        res.setRequestHeader('Content-type', 'application/json')
+        const points = e.target.parentNode.querySelector(".post_reactions__points")
+        console.log(e.target.parentNode)
+        const target = Array.from(e.target.classList)
+        if(target.includes("post_reactions__add")){
+            let resObj = {
+                post: e.target.parentNode.parentNode.dataset.id,
+                points: 1
+            }
+            if(target.includes("voted")){
+                resObj.points = 0
+                points.innerHTML = +points.innerHTML - 1
+            }
+            else {
+                points.innerHTML = +points.innerHTML + 1
+            }
+            res.send(JSON.stringify(resObj))
+            e.target.classList.toggle("voted")
+        }
+        else if(target.includes("post_reactions__minus")){
+            let resObj = {
+                post: e.target.parentNode.parentNode.dataset.id,
+                points: -1
+            }
+            if(target.includes("voted")){
+                resObj.points = 0
+                points.innerHTML = +points.innerHTML + 1
+            }
+            else {
+                points.innerHTML = +points.innerHTML - 1
+            }
+            res.send(JSON.stringify(resObj))
+            e.target.classList.toggle("voted")
+        }
     })
 }
 modalClose.addEventListener("click", () => {
@@ -114,6 +155,29 @@ function validateSignIn(){
     return false
 }
 
+function checkLikes(){
+    let res = new XMLHttpRequest()
+    res.open("GET", "/user/votes", true)
+    res.send()
+    res.onload = () => {
+        const liked = JSON.parse(res.response)
+        for(let i in liked){
+            for(let k in postsAll){
+                
+                if(postsAll[k].dataset.id == liked[i].post){
+                    if(liked[i].liked){
+                        postsAll[k].querySelector(".post_reactions__add").classList.add("voted")
+                    }
+                    else {
+                        postsAll[k].querySelector(".post_reactions__minus").classList.add("voted")
+                    }
+                    break
+                }
+            }
+        }
+    }
+}
+checkLikes()
 document.querySelector(".signup__form").onsubmit = validateSignUp
 document.querySelector(".signin__form").onsubmit = validateSignIn
 

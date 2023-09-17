@@ -29,7 +29,7 @@ app.use(bodyParser.urlencoded({
 
 app.get('/', (req, res) => {
     let posts = []
-    const result = pg.query(`SELECT * FROM posts`, (err, result) => {
+    const result = pg.query(`SELECT * FROM posts ORDER BY points desc`, (err, result) => {
         
         if(result.rows.length == 0){
             return
@@ -116,6 +116,45 @@ app.post("/user/post", (req, res) => {
             res.redirect("/")
         })
     }
+})
+
+app.post("/post/vote", (req, res) => {
+    if(req.cookies.id != null){
+        pg.query(`SELECT * FROM posts WHERE id = ${req.body.post}`, (err, result) => {
+            let voted = null
+            if(req.body.points == -1){      
+                voted = 'no'   
+            }
+            else if(req.body.points == 1){
+                voted = 'yes' 
+            }
+            else if(req.body.points == 0){
+                pg.query(`SELECT liked FROM reactions WHERE post = ${req.body.post} AND userid = ${req.cookies.id}`, (err, resultLiked) => {
+                    let liked = resultLiked.rows[0].liked
+                    console.log(liked)
+                    if(liked == 0){
+                        liked = -1
+                    }
+                    pg.query(`DELETE FROM reactions WHERE post = ${req.body.post} AND userid = ${req.cookies.id}`)
+                    pg.query(`UPDATE posts SET points = ${result.rows[0].points - +req.body.points} WHERE id = ${req.body.post}`)
+                })
+                return
+            }
+            pg.query(`SELECT * FROM reactions WHERE post = ${req.body.post} AND userid = ${req.cookies.id}`, (err, resultLiked) => {
+                if(resultLiked.rows.length == 0){
+                    pg.query(`INSERT INTO reactions (userid, post, liked) VALUES (${req.cookies.id}, ${req.body.post}, '${voted}')`)
+                    pg.query(`UPDATE posts SET points = ${+result.rows[0].points + +req.body.points} WHERE id = ${req.body.post}`)
+                }
+            })
+        }) 
+    }
+})
+
+app.get("/user/votes", (req, res) => {
+    pg.query(`SELECT post, liked FROM reactions WHERE userid = ${req.cookies.id} ORDER BY post`, (err, result) => {
+        res.setHeader('Content-Type', 'application/json');
+        res.send(JSON.stringify(result.rows))
+    })
 })
 
 
