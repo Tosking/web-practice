@@ -28,10 +28,27 @@ app.use(bodyParser.urlencoded({
 })); 
 
 app.get('/', (req, res) => {
-    console.log(req.cookies)
-    res.render("index", {
-        name: req.cookies.name,
-        id: req.cookies.id
+    let posts = []
+    const result = pg.query(`SELECT * FROM posts`, (err, result) => {
+        
+        if(result.rows.length == 0){
+            return
+        }
+        for(let i = 0; i < result.rows.length; i++){
+            posts.push(result.rows[i])
+        }
+        for(let i = 0; i < posts.length; i++){
+            const result = pg.query(`SELECT name FROM users WHERE id = ${posts[i].author}`, (err, result) => {
+                posts[i].name = result.rows[0].name
+                if(i == posts.length - 1){
+                    res.render("index", {
+                        name: req.cookies.name,
+                        id: req.cookies.id,
+                        posts: posts
+                    })
+                }
+            })
+        }
     })
 })
 
@@ -52,7 +69,7 @@ app.post("/auth/signin", (req, res) => {
         }
         else {
             console.log(result)
-            const randomNumber=createHash('sha256').update(Math.random().toString()).digest('hex')
+            const randomNumber=createHash('sha256').update(req.body.password + req.body.email).digest('hex')
             res.cookie('cookie',randomNumber, { maxAge: 90000, httpOnly: true });
             res.cookie('id', result.rows[0].id)
             res.cookie('name', result.rows[0].name)
@@ -72,7 +89,7 @@ app.post("/auth/signup", (req, res) => {
                     if(err){
                         throw err
                     }
-                    const randomNumber=createHash('sha256').update(Math.random().toString()).digest('hex')
+                    const randomNumber=createHash('sha256').update(req.body.password + req.body.email).digest('hex')
                     res.cookie('cookie',randomNumber, { maxAge: 90000, httpOnly: true });
                     res.cookie('id', result.rows[0].id)
                     res.cookie('name', result.rows[0].name)
@@ -90,6 +107,14 @@ app.post("/auth/signup", (req, res) => {
     }else{
         res.status(400).send("Error")
         return
+    }
+})
+
+app.post("/user/post", (req, res) => {
+    if(req.body.title != null){
+        pg.query(`INSERT INTO posts (title, description, author) VALUES ('${req.body.title}', '${req.body.description}', ${req.cookies.id})`, (err, result) => {
+            res.redirect("/")
+        })
     }
 })
 

@@ -2,13 +2,15 @@ const signIn = document.querySelector(".header__login")
 const signUp = document.querySelector(".header__signup")
 const modal = document.querySelector(".modal_container")
 const modalClose = document.querySelector(".modal__close")
-const headerText = document.querySelector(".modal_header__text")
+const headerText = document.querySelector(".modal-container-header__text")
 const modalSignIn = document.querySelector(".modal__login")
 const modalSignup = document.querySelector(".modal__signup")
+const modalAddPost = document.querySelector(".add-post__inner")
 const signinSubmit = document.querySelector(".login__submit")
 const signupSubmit = document.querySelector(".signup__submit")
 const signupError = document.querySelector(".signup__error")
 const signinError = document.querySelector(".signin__error")
+const addPost = document.querySelector(".add_post__button")
 
 function deleteAllCookies() {
     const cookies = document.cookie.split(";");
@@ -38,11 +40,17 @@ else {
         deleteAllCookies()
         window.location.href="/"
     })
+    addPost.addEventListener("click", () => {
+        modal.style.display = "block"
+        modalAddPost.style.display = "inline"
+        headerText.innerHTML = "Постинг"
+    })
 }
 modalClose.addEventListener("click", () => {
     modal.style.display = "none"
     modalSignIn.style.display = "none"
     modalSignup.style.display = "none"
+    modalAddPost.style.display = "none"
 })
 
 

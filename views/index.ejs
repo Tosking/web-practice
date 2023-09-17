@@ -27,15 +27,15 @@
     <main>
       <div class="modal_container">
         <div class="modal__content">
-          <div class="modal__header">
+          <div class="modal-container__header">
             <span class="modal__close">X</span>
-            <h2 class="modal_header__text"></h2>
+            <h2 class="modal-container-header__text"></h2>
           </div>
           <div class="modal__login">
             <form action="/auth/signin" class="signin__form modal_entries" method="POST" target="dummyframe">
               <input type="text" required pattern="^[a-zA-Z0-9]+(?:\.[a-zA-Z0-9]+)*@[a-zA-Z0-9]+(?:\.[a-zA-Z0-9]+)*$" 
               class="login__email modal__entry" name="email" id="email" placeholder="Почта">
-              <input type="text" required class="login__password modal__entry" name="password" placeholder="Пароль">
+              <input type="password" required class="login__password modal__entry" name="password" placeholder="Пароль">
               <div class="signin__error"></div>
               <button type="submit" class="login__submit">Войти</button>
             </form>
@@ -45,15 +45,45 @@
               <input type="text" required  class="signup__name modal__entry" name="name" placeholder="Имя">
               <input type="text" required pattern="^[a-zA-Z0-9]+(?:\.[a-zA-Z0-9]+)*@[a-zA-Z0-9]+(?:\.[a-zA-Z0-9]+)*$" 
               class="signup__email modal__entry" name="email" placeholder="Почта">
-              <input type="text" required class="signup__password modal__entry" name="password" placeholder="Пароль">
-              <input type="text" required class="signup__password__2 modal__entry" placeholder="Повторите пароль">
+              <input type="password" required class="signup__password modal__entry" name="password" placeholder="Пароль">
+              <input type="password" required class="signup__password__2 modal__entry" placeholder="Повторите пароль">
               <div class="signup__error"></div>
               <button type="submit" class="signup__submit">Зарегистрироваться</button>
             </form>
           </div>
+          <div class="add-post__inner">
+            <form action="/user/post" class="add-post__form modal_entries" method="POST">
+              <input class="add-post__title" required name="title">
+              <textarea class="add-post__description" name="description"></textarea>
+              <div class="add-post__error"></div>
+              <button type="submit" class="add-post__submit">Запостить</button>
+            </form>
+          </div>
         </div>
       </div>
+      <div class="container">
+        <div class="posts__wrapper">
+          <% for(let i = 0; i < posts.length; i++) { %>
+              <div class="posts__post" data-id=<%= posts[i].id %>>
+                <div class="post__reactions">
+                  <button class="post_reactions__add post_reactions__button">+</button>
+                  <div class="post_reactions__points"><%= posts[i].points %></div>
+                  <button class="post_reactions__minus post_reactions__button">-</button>
+                </div>
+                <div class="post__inner">
+                  <div class="post__header">
+                    <div class="post_header__title"><%= posts[i].title %></div>
+                    <div class="post__author"><%= posts[i].name %></div>
+                  </div>
+                  <div class="post__decription"><%= posts[i].description %></div>
+                </div>
+              </div>
+            <% } %>
+        </div>
     </main>
+    <% if(name != undefined) {%>
+    <div class="add_post__button">+</div>
+    <% } %>
     <footer></footer>
   </body>
   <script src="/script.js"></script>

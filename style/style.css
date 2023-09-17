@@ -42,7 +42,16 @@
     font-weight: bold;
 }
 
-.modal__header {
+.add_post__button{
+    position: fixed;
+    right: 10px;
+    bottom: 10px;
+    font-size: 57px;
+    background-color: blueviolet;
+    color: #fff;
+    padding: 10px 20px;
+    border-radius: 30px;
+    cursor: pointer;
 }
 
 input {
@@ -58,6 +67,7 @@ input {
     display: flex;
     flex-direction: column;
     justify-content: center;
+    gap: 10px;
 }
 
 .modal__entry {
@@ -66,7 +76,7 @@ input {
     margin:10px 0;
 }
 
-.modal_header__text{
+.modal-container__header{
     text-align: center; 
 }
 
@@ -75,5 +85,67 @@ input {
 }
 
 .modal__login {
+    display: none;
+}
+
+.container {
+    width: 100%;
+    margin: 10px 20px;
+}
+
+.posts__wrapper{
+    width: 100%;
+}
+
+.posts__post {
+    margin-top: 10px;
+    background-color: blueviolet;
+    width: 90%;
+    padding: 10px;
+    border-radius: 10px;
+    color:#fff;
+    display: flex;
+    flex-direction: row;
+    gap: 30px;
+}
+
+.post__header {
+    display: flex;
+    flex-direction: row;
+    gap: 10px;
+}
+
+.post_header__title {
+    font-weight: bold;
+    font-size: 20px;
+}
+
+.post__reactions {
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+    margin-left: 10px;
+    text-align: center;
+}
+
+.post_reactions__button {
+    font-size: 20px;
+    padding: 0 5px;
+    border-radius: 5px;
+}
+
+.post__inner {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.add-post__description {
+    border: 1px #000 solid;
+    max-width: 100%;
+    max-height: 40vh;
+}
+
+.add-post__inner {
     display: none;
 }
