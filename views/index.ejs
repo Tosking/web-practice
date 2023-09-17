@@ -32,20 +32,22 @@
             <h2 class="modal_header__text"></h2>
           </div>
           <div class="modal__login">
-            <form action="/auth/signin" class="signin__form modal_entries" method="POST">
+            <form action="/auth/signin" class="signin__form modal_entries" method="POST" target="dummyframe">
               <input type="text" required pattern="^[a-zA-Z0-9]+(?:\.[a-zA-Z0-9]+)*@[a-zA-Z0-9]+(?:\.[a-zA-Z0-9]+)*$" 
               class="login__email modal__entry" name="email" id="email" placeholder="Почта">
               <input type="text" required class="login__password modal__entry" name="password" placeholder="Пароль">
+              <div class="signin__error"></div>
               <button type="submit" class="login__submit">Войти</button>
             </form>
           </div>
           <div class="modal__signup">
-            <form action="/auth/signup" class="signup__form modal_entries" method="POST">
+            <form action="/auth/signup" class="signup__form modal_entries" method="POST" target="dummyframe">
               <input type="text" required  class="signup__name modal__entry" name="name" placeholder="Имя">
               <input type="text" required pattern="^[a-zA-Z0-9]+(?:\.[a-zA-Z0-9]+)*@[a-zA-Z0-9]+(?:\.[a-zA-Z0-9]+)*$" 
               class="signup__email modal__entry" name="email" placeholder="Почта">
               <input type="text" required class="signup__password modal__entry" name="password" placeholder="Пароль">
               <input type="text" required class="signup__password__2 modal__entry" placeholder="Повторите пароль">
+              <div class="signup__error"></div>
               <button type="submit" class="signup__submit">Зарегистрироваться</button>
             </form>
           </div>

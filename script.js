@@ -7,6 +7,8 @@ const modalSignIn = document.querySelector(".modal__login")
 const modalSignup = document.querySelector(".modal__signup")
 const signinSubmit = document.querySelector(".login__submit")
 const signupSubmit = document.querySelector(".signup__submit")
+const signupError = document.querySelector(".signup__error")
+const signinError = document.querySelector(".signin__error")
 
 function deleteAllCookies() {
     const cookies = document.cookie.split(";");
@@ -46,13 +48,64 @@ modalClose.addEventListener("click", () => {
 
 
 function validateSignUp(){
+    signupError.innerHTML = ""
+    document.querySelector(".signup__password__2").style.backgroundColor = ""
+    document.querySelector(".signup__password").style.backgroundColor = ""
     if(document.querySelector(".signup__password").value != document.querySelector(".signup__password__2").value){
         document.querySelector(".signup__password__2").style.backgroundColor = "#f99"
+        signupError.innerHTML = "Пароль не сходится"
         return false
     }
-    console.log("123")
-    return true
+    if(document.querySelector(".signup__password").value.length < 6){
+        document.querySelector(".signup__password").style.backgroundColor = "#f99"
+        signupError.innerHTML = "Слишком короткий пароль"
+        return false
+    }
+    let res = new XMLHttpRequest()
+    const resObj = {
+        name: document.querySelector(".signup__name").value,
+        email: document.querySelector(".signup__email").value,
+        password: document.querySelector(".signup__password").value
+    }
+    res.open("POST", "/auth/signup", true)
+    res.setRequestHeader('Content-type', 'application/json')
+    res.send(JSON.stringify(resObj))
+    res.onload = () => {
+        if(res.status == 400){
+            signupError.innerHTML = res.response
+            console.log(res.response)
+        }
+        else {
+            window.location.href = "/"
+        }
+        return false
+    }
+
+    return false
+}
+
+function validateSignIn(){
+    let res = new XMLHttpRequest()
+    const resObj = {
+        email: document.querySelector(".login__email").value,
+        password: document.querySelector(".login__password").value
+    }
+    res.open("POST", "/auth/signin", true)
+    res.setRequestHeader('Content-type', 'application/json')
+    res.send(JSON.stringify(resObj))
+    res.onload = () => {
+        if(res.status == 400){
+            signinError.innerHTML = res.response
+            console.log(res.response)
+        }
+        else {
+            window.location.href = "/"
+        }
+        return false
+    }
+    return false
 }
 
 document.querySelector(".signup__form").onsubmit = validateSignUp
+document.querySelector(".signin__form").onsubmit = validateSignIn
 
